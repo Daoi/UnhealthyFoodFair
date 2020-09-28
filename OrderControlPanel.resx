@@ -117,9 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="lblInstructions.Text" xml:space="preserve">
-    <value>To order, enter a number 1 through 8 to select your menu item, and a quantity 1-10 to choose how many you want to order.
-Afterwards, hit add item to order. Then, if you'd like to order more items, press Order More. Otherwise you can hit All Done
-to complete your order. </value>
-  </data>
 </root>

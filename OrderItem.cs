@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp11
 {
-    class OrderItem
+    public class OrderItem
     {
         int hiddenKey;
         string hiddenName;

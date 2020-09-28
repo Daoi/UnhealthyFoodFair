@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp11
 {
-    class OrderList
+    public class OrderList
     {
-        List<OrderItem> internalList;
+        public List<OrderItem> internalList {get; set;}
 
         public OrderList()
         {
@@ -22,15 +22,25 @@ namespace WindowsFormsApp11
 
         public string buildStringForMessageBox()
         {
+            const int KEY = 0;
+            const int ITEM = 1;
+            const int PRICE = 2;
+            const int QUANTITY = 3;
+
+
             StringBuilder sb = new StringBuilder();
-            internalList.ForEach(order => sb.Append(order.buildAttributeString() + "\r\n"));
+            foreach(OrderItem order in internalList)
+            {
+                string[] items = order.buildAttributeString().Split('*');
+                sb.Append($"({items[QUANTITY]}){items[ITEM]} {items[PRICE]} Quantity: {items[QUANTITY]} \r\n");
+            }
             return sb.ToString();
         }
 
         public string writeStringToUpdateFile()
         {
             StringBuilder sb = new StringBuilder();
-            internalList.ForEach(order => sb.Append(order.buildAttributeString()));
+            internalList.ForEach(order => sb.Append(order.buildAttributeString() + "|"));
             return sb.ToString();
 
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp11
 {
-    class MenuInfo
+    public class MenuInfo
     {
 
         string[] hiddenNames = new string[8] { "Hot Dog", "Hamburger", "French Frie", "Bacon Burger",

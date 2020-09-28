@@ -1,51 +1,66 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
+using UserControls;
 
 namespace WindowsFormsApp11
 {
     public partial class Form1 : Form
     {
+        OrderList orderList = new OrderList();
+        MenuInfo menu = new MenuInfo();
+        System.Drawing.Point originLoc;
+        int totalOrders = 0;
+
+
         public Form1()
         {
+            originLoc = new System.Drawing.Point(104, 8);
             InitializeComponent();
+            OrderControlPanel origin = new OrderControlPanel();
+            pnlOrder.Controls.Add(origin);
+            origin.initValues(originLoc, orderList, menu, btnMoreToOrder);
+         
+
         }
-        MenuInfo menu = new MenuInfo();
-        OrderList orderList = new OrderList();
+
 
         private void btnMoreToOrder_Click(object sender, EventArgs e)
         {
-            int key;
-            if (!int.TryParse(txtItemKey.Text, out key))
+            totalOrders++;
+            if(totalOrders == 5)
             {
-                MessageBox.Show("Keys must be a number between 1 and 8", "Error");
-                return;
+                btnMoreToOrder.Enabled = false;
+                MessageBox.Show("You've reached the maximum order amount!");
             }
-            if (key < 1 || key > 8)
+            OrderControlPanel newOrder = new OrderControlPanel();
+            newOrder.initValues(originLoc, orderList, menu, btnMoreToOrder);
+            pnlOrder.Controls.Add(newOrder);
+            MessageBox.Show($"{txtName.Text} your order({orderList.internalList.Count} items) so far is: \r\n {orderList.buildStringForMessageBox()}");
+            btnMoreToOrder.Enabled = false;
+        }
+
+        private void btnName_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(btnName.Text))
             {
-                MessageBox.Show("Keys must be a number between 1 and 8", "Error");
-                return;
+                pnlOrder.Visible = true;
+                lblInstructions.Visible = true;
+                pnlControlButtons.Visible = true;
             }
-            int quantity;
+        }
 
-            if (!int.TryParse(txtItemOrderCount.Text, out quantity))
-            {
-                MessageBox.Show("Quantity should be a number greater than 0, less than 10", "Error");
-                return;
-            }
-            if (quantity > 10 || quantity < 1)
-            {
-                MessageBox.Show("Quantity should be a number greater than 0, less than 10", "Error");
-                return;
-            }
+        private void btnAllDone_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show($"{txtName.Text} your order({orderList.internalList.Count} items) so far is: \r\n {orderList.buildStringForMessageBox()}");
+            OrderFile writer = new OrderFile(orderList);
+            writer.writeFile();
+            Application.Exit();
+        }
 
-            OrderItem ord = new OrderItem(key, menu.getMenuItemName(key), menu.getMenuItemPrice(key), quantity);
-            orderList.Add(ord);
-
-            MessageBox.Show($"Order so far is: \r\n {orderList.buildStringForMessageBox()}");
-
-            txtItemKey.Clear();
-            txtItemOrderCount.Clear();
-
+        private void lblItemKey_Click(object sender, EventArgs e)
+        {
 
         }
     }
